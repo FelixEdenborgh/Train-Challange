@@ -1,0 +1,133 @@
+﻿internal class Program
+{
+    private static void Main(string[] args)
+    {
+        // Random
+        Random rand = new Random();
+
+        // Data Typer
+        int tågPlatser, maxPassagerare, antalStationer, gårav, väntarPåPlatsPåTåg;
+
+
+
+        Console.WriteLine("Välkommen till denna tåg uppgift");
+        Console.WriteLine();
+
+        tågPlatser = 20; // Efter vad sj säger att deras 2000 - 3000 tåg har plats för. Med 56 platser per vagn. Och 7 vagnar per tåg. Original (392 platser per 7 vagnar tåg.)
+        // Bara hälften får vara fulla då covid-19 så sa man att man skulle ha minst 1 meter mellan varje person. Men för att göra det lite enklare så sätter vi den till ätt lägre världe.
+        maxPassagerare = tågPlatser / 2;
+        
+
+       
+        antalStationer = rand.Next(3, 10); // minst 3 stationer och max 10 stationer
+        gårav = rand.Next(1, 5); // 1 - 4 personer går av
+        väntarPåPlatsPåTåg = rand.Next(1, 5); // 1 - 4 personer väntar på plats på tåget
+
+
+        Console.WriteLine($"Antal Stationer: {antalStationer}");
+        Console.WriteLine($"Antal platser: {maxPassagerare}");
+        Console.WriteLine();
+
+        for (int i = 1; i <= antalStationer; i++)
+        {
+
+            // Kallar på dem igen för att få nya värden
+            gårav = rand.Next(1, 5); // 1 - 4 personer går av
+            väntarPåPlatsPåTåg = rand.Next(1, 5); // 1 - 4 personer väntar på plats på tåget
+
+            if (i == 1)
+            {
+                Console.WriteLine($"Välkomna ombord alla vid Station {i}");
+                // Går på tåget
+                if (väntarPåPlatsPåTåg > (tågPlatser - maxPassagerare))
+                {
+                    // Det finns inte tillräckligt med platser för alla som väntar
+                    int antalKundeGåPå = tågPlatser - maxPassagerare;
+
+                    if (antalKundeGåPå > 0)
+                    {
+                        Console.WriteLine($"{antalKundeGåPå} personer gick på tåget. Det finns ingen plats för de överskjutande.");
+                        maxPassagerare = tågPlatser;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Tåget är fullt, ni får vänta på nästa tåg.");
+                    }
+                }
+                else
+                {
+                    maxPassagerare = maxPassagerare - väntarPåPlatsPåTåg;
+                    Console.WriteLine($"{väntarPåPlatsPåTåg} gick på tåget.");
+                    Console.WriteLine($"Det finns {maxPassagerare} platser kvar till nästa Station");
+                    Console.WriteLine("Tåget avgår ifrån station");
+                    Console.WriteLine();
+                }
+
+                
+            }
+            else
+            {
+                Console.WriteLine($"Välkomna alla vid Station {i}");
+
+
+                // Går av tåget
+                if (gårav > maxPassagerare)
+                {
+                    Console.WriteLine("Tåget är tomt, alla har gått av.");
+                    maxPassagerare = 0; // Uppdatera maxPassagerare till 0 när alla har gått av.
+                }
+                else
+                {
+                    Console.WriteLine("Låt personerna i tåget som ska gå av gå först!");
+                    
+                    if((maxPassagerare + gårav) > (tågPlatser / 2))
+                    {
+                        Console.WriteLine("Ingen går av");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Det går av {gårav} personer från tåget");
+                        maxPassagerare = maxPassagerare + gårav;
+                        Console.WriteLine($"Det finns {maxPassagerare} platser kvar på tåget");
+                    }
+                    
+                }
+
+                // Går på tåget
+                if (väntarPåPlatsPåTåg > (tågPlatser - maxPassagerare))
+                {
+                    // Det finns inte tillräckligt med platser för alla som väntar
+                    int antalKundeGåPå = tågPlatser - maxPassagerare;
+
+                    if (antalKundeGåPå > 0)
+                    {
+                        Console.WriteLine($"{antalKundeGåPå} personer gick på tåget. Det finns ingen plats för de överskjutande.");
+                        maxPassagerare = tågPlatser;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Tåget är fullt, ni får vänta på nästa tåg.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Välkomna ombord ni som väntar vid Station {i}");
+                    maxPassagerare = maxPassagerare - väntarPåPlatsPåTåg;
+                    Console.WriteLine($"{väntarPåPlatsPåTåg} gick på tåget.");
+                    Console.WriteLine($"Det finns {maxPassagerare} platser kvar till nästa Station");
+                }
+
+
+
+                Console.WriteLine("Tåget avgår ifrån station");
+                Console.WriteLine();
+                if(i >= antalStationer)
+                {
+                    Console.WriteLine($"Tåget har nåt sin slut destenation, alla ni {(tågPlatser / 2) - maxPassagerare} som är kvar, var vänliga gå av tåget.");
+                }
+            }
+
+            
+        }
+    }
+}
